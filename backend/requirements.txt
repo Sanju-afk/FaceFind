@@ -1,0 +1,26 @@
+# --- Core Web Framework ---
+fastapi
+uvicorn[standard]     # The [standard] flag installs high-performance C++ async loops
+python-multipart      # Required for FastAPI file uploads
+pydantic              # Required for FastAPI data validation
+python-dotenv            # For loading environment variables from a .env file
+
+# --- Machine Learning & Vector Search ---
+insightface           # The core face detection/embedding model
+onnxruntime           # The engine that runs InsightFace on your CPU
+faiss-cpu             # Facebook's similarity search index
+opencv-python-headless # Headless prevents Docker from crashing looking for a GUI
+
+# --- InsightFace's "Hidden" Dependencies ---
+# If these aren't explicitly installed, InsightFace often throws random errors
+numpy
+scipy
+scikit-learn
+easydict              # InsightFace uses this heavily for its internal config
+Pillow                # Python Imaging Library
+matplotlib            # Used internally by InsightFace for 3D meshes (your previous error)
+tqdm                  # For progress bars during model downloads
+requests              # To download the model weights from the internet
+
+#Deployment
+supabase

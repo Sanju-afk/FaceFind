@@ -1,0 +1,55 @@
+SUPABASE SQL
+---------------------------------------------
+1.dashboard setup
+-- 1. Enable the pgvector extension
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- 2. Create the faces table
+CREATE TABLE faces (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  filename TEXT NOT NULL,
+  embedding vector(512), -- Matches InsightFace's 512 dimensions
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 3. Create a vector index for faster searching (L2 distance)
+CREATE INDEX ON faces USING ivfflat (embedding vector_l2_ops)
+WITH (lists = 100);
+
+
+2.Create search function
+CREATE OR REPLACE FUNCTION match_faces (
+  query_embedding vector(512),
+  match_threshold FLOAT,
+  match_count INT
+)
+RETURNS TABLE (
+  id UUID,
+  filename TEXT,
+  distance FLOAT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    faces.id,
+    faces.filename,
+    faces.embedding <-> query_embedding AS distance -- <-> is L2 distance
+  FROM faces
+  WHERE faces.embedding <-> query_embedding < match_threshold
+  ORDER BY distance ASC
+  LIMIT match_count;
+END;
+$$;
+
+
+
+
+
+
+----------------------------------------------------------------------------------------
+L2 Distance vs. Cosine Similarity: In your SQL, you used <-> which is L2 Distance (Euclidean). In this mode, a distance of 0 is a perfect match. If you find the results are inconsistent, you might try Cosine Similarity (1 - (faces.embedding <=> query_embedding)), which is often preferred for face recognition embeddings.
+
+
+The 512D Constraint: You correctly set vector(512) in SQL. If you ever switch models (e.g., to a smaller 128D model), you will need to run a migration to change that column size.

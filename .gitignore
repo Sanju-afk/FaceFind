@@ -1,0 +1,67 @@
+# --- Security ---
+# NEVER commit your secrets! 
+.env
+*.env
+supabase_backup.sql
+
+# --- Python / Backend ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- AI Models & Data ---
+# These are too large for Git or contain local sensitive data [cite: 11]
+models/
+app/data/
+/tmp/faceseek/
+*.onnx
+*.pth
+*.bin
+*.joblib
+
+# --- Vector DB (Local backups) ---
+# If you still have local FAISS files [cite: 13, 137]
+faiss_index.bin
+image_db.json
+
+# --- Node / React Frontend ---
+# For when you start Phase 4 [cite: 14, 20]
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+coverage/
+build/
+.next/
+out/
+build-stats.json
+.vercel
+
+# --- OS & IDEs ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo

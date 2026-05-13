@@ -36,7 +36,7 @@ while True:
             response = requests.post(API_URL, files=files)
             if response.status_code == 200:
                 data = response.json()
-                matches = data.get("matches"[])
+                matches = data.get("matches",[])
 
                 # Check if we have a match and if the distance is close enough
                 if matches and matches[0]['distance'] < 1.0:

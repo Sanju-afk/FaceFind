@@ -24,3 +24,5 @@ requests              # To download the model weights from the internet
 
 #Deployment
 supabase
+redis
+celery

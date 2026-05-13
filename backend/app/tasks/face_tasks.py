@@ -1,5 +1,5 @@
 from app.core.celery_app import celery_app
-from app.services.face_service import FaceService
+from app.services.face_service import face_service
 from app.services.storage_service import upload_image  
 from app.services.vector_service import add_embedding
 import os
